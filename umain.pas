@@ -109,8 +109,8 @@ var
 begin
   try
     proc := TProcessUTF8.Create(Self);
-    proc.Executable := 'cmd.exe /C ' + UninstallData;
-    proc.ShowWindow := swoHIDE;
+    proc.Executable := 'cmd.exe /C "' + UninstallData + '"';
+    //proc.ShowWindow := swoHIDE;
     try
       proc.Execute;
     except

@@ -1,0 +1,58 @@
+object frmMain: TfrmMain
+  Left = 474
+  Height = 768
+  Top = 178
+  Width = 1024
+  Caption = 'Lainz Uninstall'
+  ClientHeight = 768
+  ClientWidth = 1024
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '1.6.0.4'
+  object StringGrid1: TStringGrid
+    Left = 0
+    Height = 768
+    Top = 0
+    Width = 1024
+    Align = alClient
+    BorderStyle = bsNone
+    ColCount = 6
+    Columns = <    
+      item
+        Title.Caption = 'Application'
+        Width = 204
+      end    
+      item
+        Title.Caption = 'Publisher'
+        Width = 204
+      end    
+      item
+        Title.Caption = 'Install Date'
+        Width = 204
+      end    
+      item
+        Title.Caption = 'Size'
+        Width = 204
+      end    
+      item
+        Title.Caption = 'Version'
+        Width = 208
+      end    
+      item
+        Title.Caption = 'Uninstall'
+      end>
+    FixedCols = 0
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect, goThumbTracking, goSmoothScroll]
+    TabOrder = 0
+    TitleStyle = tsNative
+    OnDblClick = StringGrid1DblClick
+    ColWidths = (
+      204
+      204
+      204
+      204
+      208
+      64
+    )
+  end
+end

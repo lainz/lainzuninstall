@@ -19,6 +19,7 @@ type
   private
     FApps: TUninstallApp;
     procedure Fill();
+    procedure Reload();
     function GetFormattedSize(size: int64): string;
     function GetFormattedDate(Value: string): string;
     procedure ExecuteUninstall(const UninstallData: string);
@@ -39,9 +40,7 @@ uses
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
   FApps := TUninstallApp.Create(Self);
-  FApps.LoadData();
-  Fill();
-  FApps.Free;
+  Reload();
 end;
 
 procedure TfrmMain.StringGrid1DblClick(Sender: TObject);
@@ -61,7 +60,7 @@ begin
     with FApps.Entries.Items[i] do
     begin
       { Display only these entries }
-      if (ParentKeyName = '') and (DisplayName <> '') and (UninstallString <> '') then
+      if (ParentKeyName = '') and (DisplayName <> '') then
       begin
         j := StringGrid1.RowCount;
         StringGrid1.RowCount := StringGrid1.RowCount + 1;
@@ -70,7 +69,10 @@ begin
         StringGrid1.Cells[2, j] := GetFormattedDate(InstallDate);
         StringGrid1.Cells[3, j] := GetFormattedSize(EstimatedSize);
         StringGrid1.Cells[4, j] := DisplayVersion;
-        StringGrid1.Cells[5, j] := UninstallString;
+        if UninstallString <> '' then
+          StringGrid1.Cells[5, j] := UninstallString
+        else if (GUID[1] = '{') then
+          StringGrid1.Cells[5, j] := 'msiexec.exe /X' + GUID;
       end;
     end;
   end;
@@ -80,12 +82,18 @@ begin
   StringGrid1.EndUpdate();
 end;
 
+procedure TfrmMain.Reload;
+begin
+  FApps.LoadData();
+  Fill();
+end;
+
 function TfrmMain.GetFormattedSize(size: int64): string;
 begin
   Result := '';
   if size >= 0 then
   begin
-    if (size < 1023) then
+    if (size < 1024) then
       Result := FloatToStrF(size, ffNumber, 2, 2) + ' KB'
     else
       Result := FloatToStrF(size / 1024, ffNumber, 2, 2) + ' MB';

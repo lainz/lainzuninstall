@@ -20,7 +20,7 @@ type
   private
     function ReadString(const reg: TRegistry; const aName: string): string;
     function ReadInteger(const reg: TRegistry; const aName: string): integer;
-    procedure LoadEntries(Access: longword);
+    procedure LoadEntries(const Access: longword; const Root: HKEY);
   public
     procedure LoadData();
     property Entries: TUninstallEntries read FEntries;
@@ -75,14 +75,14 @@ begin
   end;
 end;
 
-procedure TUninstallApp.LoadEntries(Access: longword);
+procedure TUninstallApp.LoadEntries(const Access: longword; const Root: HKEY);
 var
   i, j: integer;
   key_names: TStringList;
   reg: TRegistry;
 begin
   reg := TRegistry.Create(Access);
-  reg.RootKey := HKEY_LOCAL_MACHINE;
+  reg.RootKey := Root;
 
   if reg.OpenKeyReadOnly(UNINSTALL_KEY) then
   begin
@@ -136,8 +136,10 @@ end;
 procedure TUninstallApp.LoadData;
 begin
   Entries.Clear;
-  LoadEntries(KEY_WOW64_32KEY);
-  LoadEntries(KEY_WOW64_64KEY);
+  // This is tested only under 64 bit OS
+  LoadEntries(KEY_WOW64_32KEY, HKEY_LOCAL_MACHINE);
+  LoadEntries(KEY_WOW64_64KEY, HKEY_LOCAL_MACHINE);
+  LoadEntries(KEY_WRITE, HKEY_CURRENT_USER);
   Entries.Sort(@CompareEntriesByName);
 end;
 

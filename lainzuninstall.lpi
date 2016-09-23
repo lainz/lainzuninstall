@@ -98,7 +98,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="5">
       <Unit0>
         <Filename Value="lainzuninstall.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -120,6 +120,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="UninstallApp"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="windowsbitness.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="WindowsBitness"/>
+      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

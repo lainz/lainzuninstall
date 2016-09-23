@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, umain, UninstallEntries, uninstallapp;
+  Forms, umain, UninstallEntries, uninstallapp, windowsbitness;
 
 {$R *.res}
 

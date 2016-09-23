@@ -30,6 +30,8 @@ const
   UNINSTALL_KEY = '\Software\Microsoft\Windows\CurrentVersion\Uninstall\';
 
 implementation
+uses
+  WindowsBitness;
 
 { TUninstallApp }
 
@@ -137,9 +139,17 @@ procedure TUninstallApp.LoadData;
 begin
   Entries.Clear;
   // This is tested only under 64 bit OS
-  LoadEntries(KEY_WOW64_32KEY, HKEY_LOCAL_MACHINE);
-  LoadEntries(KEY_WOW64_64KEY, HKEY_LOCAL_MACHINE);
-  LoadEntries(KEY_WRITE, HKEY_CURRENT_USER);
+  if IsWindows64 then
+  begin
+    LoadEntries(KEY_WOW64_32KEY, HKEY_LOCAL_MACHINE);
+    LoadEntries(KEY_WOW64_64KEY, HKEY_LOCAL_MACHINE);
+    LoadEntries(KEY_WRITE, HKEY_CURRENT_USER);
+  end
+  else
+  begin
+    LoadEntries(KEY_WRITE, HKEY_LOCAL_MACHINE);
+    LoadEntries(KEY_WRITE, HKEY_CURRENT_USER);
+  end;
   Entries.Sort(@CompareEntriesByName);
 end;
 
